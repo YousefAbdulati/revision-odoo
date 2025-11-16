@@ -51,6 +51,9 @@ class Property(models.Model):
     diff=fields.Float(compute="_compute_diff",store=True)
 
 
+    seq=fields.Char(default="New", readonly=True)
+
+
     _sql_constraints=[
         ('unique_name','unique("name")','This name already exist!')
         ]
@@ -68,13 +71,14 @@ class Property(models.Model):
             rec.diff = rec.expected_price - rec.selling_price
 
 
-    @api.onchange("expected_price","selling_price")       
+    @api.onchange("expected_price" ,"selling_price")       
     def _change_garden_area(self):
         for rec in self:
-            rec.garden_area = rec.garden_area + 10
-            return{
-                "warning":{"title":"warning","message":"garden area changed","type":"notification"}
-            }
+            if self._origin.id: 
+                rec.garden_area = rec.garden_area + 10
+                return{
+                    "warning":{"title":"warning","message":"garden area changed","type":"notification"}
+                }
 
 
     def set_draft(self):
@@ -128,8 +132,20 @@ class Property(models.Model):
     #     return res
 
 
+    @api.model
+    def create(self,vals):
+        res=super().create(vals)
+        if res.seq == 'New':
+            res.seq = self.env["ir.sequence"].next_by_code("property_seq")
 
-
+        return res
+    
+    # def write(self, vals):
+    #     res = super().write(vals)
+    #     for rec in self:
+    #         if rec.seq in (False, '', 'New'):
+    #             rec.seq = self.env["ir.sequence"].next_by_code("property_seq") or 'New'
+    #     return res
 
 
 
@@ -144,3 +160,7 @@ class PropertyLine(models.Model):
 
 
     property_id=fields.Many2one("property")
+
+
+
+

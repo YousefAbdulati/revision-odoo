@@ -7,6 +7,7 @@
     "depends":["base","sale_management","account","mail","contacts"],
     "data":[
         "security/ir.model.access.csv",
+        "data/sequence.xml",
         "views/base.xml",
         "views/property_view.xml",
         "views/owner_view.xml",

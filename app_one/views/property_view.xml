@@ -43,10 +43,16 @@
                     <field name="state" widget="statusbar"  options="{'clickable':False}"/>
                 </header>
                 <div class="oe.title">
-                    <label for="name" />
+
+
+                    <label for="seq" />
                     <h1>
-                        <field name="name" />
+                        <field name="seq" />
                     </h1>
+                    <label for="name" />
+                    <h4>
+                        <field name="name" />
+                    </h4>
                 </div>
                 <group>
                     <group string="General Info.">
