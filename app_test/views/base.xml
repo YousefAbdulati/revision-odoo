@@ -1,0 +1,13 @@
+<odoo>
+<menuitem
+    id="test_a_root_menu"
+    name="Test A"
+    />
+<menuitem
+    id="test_items_menu"
+    name="Test Items"
+    parent="test_a_root_menu"
+    />
+    
+
+</odoo>

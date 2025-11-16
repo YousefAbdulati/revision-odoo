@@ -1,0 +1,72 @@
+<odoo>
+<record id="test_item_action" model="ir.actions.act_window">
+    <field name="name">Test Item</field>
+    <field name="res_model">test.a</field>    
+</record>
+
+
+<record id="test_item_view_tree" model="ir.ui.view">
+    <field name="name">test_item.view.tree</field>
+    <field name="model">test.a</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name" />
+            <field name="code" />
+            <field name="subjects" />
+            
+        </tree>
+    </field>
+</record>
+
+<record id="test_item_view_form" model="ir.ui.view">
+    <field name="name">test_item.view.form</field>
+    <field name="model">test.a</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <header>
+                    <button name="change_state_to_draft" type="object" string="To_Draft" class="btn-danger"/>
+                    <button name="change_state_to_pending" type="object" string="To_pending" class="btn-success"/>
+                    <button name="change_state_to_sold" type="object" string="To_Solid" class="btn-warning"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,sold" />
+                </header>
+                <group string="General">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="subjects" />
+                </group>
+                <group string="Addtional">
+                    <field name="old_price" />
+                    <field name="new_price" />
+                    <field name="discount" />
+                </group>
+            </sheet>
+        </form>
+    </field>
+
+</record>
+
+<record id="test_item_view_search" model="ir.ui.view">
+    <field name="name">test_item.view.search</field>
+    <field name="model">test.a</field>
+    <field name="arch" type="xml">
+        <search>
+        <field name="name" />
+        <field name="code" />
+        <filter name="is_subject_arabic" string="Arabic Subject" domain="[('subjects', '=', 'arabic')]"/>
+        <filter name="group_subject" string="Subject" context="{'group_by':'subjects'}"/>
+        </search>
+    </field>
+</record>
+
+
+
+<menuitem
+    id="test_item_menu"
+    name="Test Item"
+    action="test_item_action"
+    parent="test_items_menu"
+    />
+    
+
+</odoo>

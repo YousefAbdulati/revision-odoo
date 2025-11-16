@@ -1,0 +1,30 @@
+
+.tasks table {
+    text-align: center;
+}
+
+.tasks thead tr{
+    background-color: aqua ;
+}
+
+
+.tasks table thead > tr > th:nth-child(2){
+    color: rgba(179, 0, 0, 0.336) !important;
+}
+
+
+.tasks table tbody > tr:nth-child(7){
+    color: rgba(27, 0, 179, 0.849) !important;
+}
+
+.tasks table tbody > tr:nth-child(7) > td{
+    background-color: aquamarine !important;
+}
+
+.tasks table tbody > tr td:nth-child(4){
+   width: 50px;
+}
+
+.tasks table tbody tr:hover td {
+    background-color: rgba(255, 0, 0, 0.425);
+}
