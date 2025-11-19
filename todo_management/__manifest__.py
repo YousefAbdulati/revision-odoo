@@ -7,9 +7,11 @@
     "depends":["base","contacts","mail"],
     "data":[
         "security/ir.model.access.csv",
+        "data/sequence.xml",
         "views/base.xml",
         "views/todo_task_view.xml",
-        "views/res_partner_view.xml"
+        "views/res_partner_view.xml",
+        "reports/todo_task_report.xml"
     ],
     "application":True,
 }

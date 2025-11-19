@@ -29,6 +29,8 @@
                         <field name="phone" />
                         <field name="address" />
                         <field name="property_ids" widget="many2many_tags" />
+                        <field name="create_time"  />
+                        <field name="plus_time"/>
                     </group>
                 </sheet>
             </form>

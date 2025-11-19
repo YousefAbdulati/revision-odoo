@@ -1,0 +1,104 @@
+<odoo>
+
+<record id="action_report_todo_task" model="ir.actions.report">
+    <field name="name">Task Report</field>
+    <field name="model">todo.task</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">todo_management.todo_task_report</field>
+    <field name="binding_model_id" ref="model_todo_task"/>
+    <field name="binding_type">report</field>
+</record>
+
+
+
+<template id="todo_task_report">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <table>
+                    <tr>
+                        <th>Task</th>
+                        <td><span t-field="o.name" /></td>
+                    </tr>
+                    <tr>
+                        <th>Due Date</th>
+                        <td><span t-field="o.due_date" /></td>
+                    </tr>
+                    <tr>
+                        <th>Asign To</th>
+                        <td><span t-field="o.assign_to" /></td>
+                    </tr>
+                    <tr>
+                        <th>Estimated Time</th>
+                        <td><span t-field="o.estimated_time" /></td>
+                    </tr>
+                    </table>
+
+                    <p><b>Dscreption:</b></p>
+                    <p><t t-esc="o.description" /></p>
+
+                    <style>
+                        .time_sheet_table{
+                            width:80%;
+                            border-collapse:collapse;
+                            text-align:center;
+                            margin:0 auto;
+                        }
+                        .time_sheet_table thead{
+                            background-color: #9c9df7d2;
+                            color:black;
+                        }
+
+                        .time_sheet_table thead th{
+                            border: 1px solid black;
+                        }
+
+                        .time_sheet_table tbody td{
+                            border: 1px solid black;
+                        }
+
+                    </style>
+
+
+                    <table class="time_sheet_table">
+                    <thead>
+                        <th colspan="4">Time Sheet</th>
+                    </thead>
+                    <thead>
+                        <th>#</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </thead>
+                    <tbody>
+                    <t t-set="counter" t-value="1" />
+                    <t t-set="total_time" t-value="0"/>
+                    <t t-foreach="o.time_line_ids" t-as="l">
+                        <tr>
+                            <td><t t-esc="counter" /></td>
+                            <td><span t-field="l.description" /></td>
+                            <td><span t-field="l.date" /></td>
+                            <td><span t-field="l.time" /></td>
+                        </tr>
+                        <t t-set="total_time" t-value="total_time + l.time"/>
+                        <t t-set="counter" t-value="counter+1" />
+
+
+                    </t>
+                        <tr>
+                            <td colspan="3">Total Time</td>
+                            <td><t t-esc="total_time"/></td>
+                        </tr>
+                    </tbody>
+
+                    </table>
+                    
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+    
+
+</odoo>

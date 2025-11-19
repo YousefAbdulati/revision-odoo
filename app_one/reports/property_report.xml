@@ -18,7 +18,7 @@
                     <style>
                             h1 {
                                 text-align: center;
-                                font-family: Arial, sans-serif;
+                                font-family: ElmsSans-Italic;
                                 color: #2c3e50;
                             }
 
@@ -27,7 +27,7 @@
                                 border-collapse: collapse;
                                 margin: 0px auto;
                                 margin-top: 20px;
-                                font-family: Arial, sans-serif;
+                                font-family: ElmsSans-Italic;
                             }
 
                             table thead th {

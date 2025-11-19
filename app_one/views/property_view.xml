@@ -10,6 +10,9 @@
     <field name="model">property</field>
     <field name="arch" type="xml">
         <tree multi_edit="True"  create="1" edit="1" delete="1" class="tasks"   decoration-danger="(is_late)">
+            <header>
+                <button  name="print_xlsx_property_report"   string="Print Excel Report"  type="object"  class="btn-primary" />
+            </header>
             <field name="name" />
             <field name="state" />
             <field name="owner_id" />
@@ -32,9 +35,16 @@
     <field name="arch" type="xml">
         <form create="1" edit="1" delete="1">
             <sheet>
+                <div name="button_box" class="button_box"> 
+                    <button name="open_related_owner" type="object" string="To Owner" icon="fa-user"
+                        invisible="not owner_id"/>
+                </div>
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Sold" bg_color="text-bg-success" invisible="state != 'sold'"/>
+
                 <header>
                     <button name="set_draft" type="object" class="btn-primary" string="To Draft"
-                        invisible="state == 'draft'"/>
+                        invisible="state in ('draft','closed')"/>
                     <button name="set_pending" type="object" class="btn-primary" string="To Pending"
                         invisible="state != 'draft'"/>
                     <button name="set_sold" type="object" class="btn-primary" string="To Sold"
@@ -51,40 +61,41 @@
                     </h1>
                     <label for="name" />
                     <h4>
-                        <field name="name" />
+                        <field name="name"  readonly="state == 'closed'"/>
                     </h4>
                 </div>
                 <group>
                     <group string="General Info.">
-                        <field name="diff" />
-                        <field name="postcode" />
-                        <field name="date_availability"/>
-                        <field name="expected_price"/>
-                        <field name="selling_price" />
-                        <field name="bedrooms" />
-                        <field name="expected_selling_date" />
+                        <field name="diff" readonly="state == 'closed'"/>
+                        <field name="postcode" readonly="state == 'closed'"/>
+                        <field name="date_availability" readonly="state == 'closed'"/>
+                        <field name="expected_price" readonly="state == 'closed'"/>
+                        <field name="selling_price" readonly="state == 'closed'"/>
+                        <field name="bedrooms" readonly="state == 'closed'"/>
+                        <field name="expected_selling_date" readonly="state == 'closed'"/>
                         <field name="is_late" invisible="True" />
                     </group>
                     <group string="Additional Info.">
-                        <field name="owner_id" />
-                        <field name="phone" />
-                        <field name="address" />
-                        <field name="tag_ids" widget="many2many_tags"/>
-                        <field name="facades" />
-                        <field name="garage" />
-                        <field name="garden" />
-                        <field name="garden_area" />
-                        <field name="garden_orientation" />
+                        <field name="owner_id" readonly="state == 'closed'"/>
+                        <field name="phone" readonly="state == 'closed'"/>
+                        <field name="address" readonly="state == 'closed'"/>
+                        <field name="tag_ids" widget="many2many_tags" readonly="state == 'closed'"/>
+                        <field name="facades" readonly="state == 'closed'"/>
+                        <field name="garage" readonly="state == 'closed'"/>
+                        <field name="garden" readonly="state == 'closed'" />
+                        <field name="garden_area" readonly="state == 'closed'" />
+                        <field name="garden_orientation" readonly="state == 'closed'" />
+                        <field name="active" invisible="True" />
                         
                     </group>
                 </group>
                 <group>
-                    <field name="discription" required="1"/>
+                    <field name="description" required="1"/>
                 </group>
                 <notebook>
                     <page string="Beadrooms">
-                    <field name="property_line_ids" >
-                        <tree>
+                    <field name="property_line_ids" readonly="state == 'closed'">
+                        <tree editable="bottom">
                             <field name="description" />
                             <field name="area" />
                         </tree>
@@ -104,7 +115,7 @@
 </record>
 
 
-<!-- <record id="property_closed_action_server" model="ir.actions.server">
+<record id="property_closed_action_server" model="ir.actions.server">
     <field name="name">Closed</field>
     <field name="model_id" ref="model_property"/>
     <field name="binding_model_id" ref="model_property"/>
@@ -112,7 +123,17 @@
     <field name="code">
         action= records.set_closed()
     </field>
-</record> -->
+</record>
+
+<record id="property_change_state_action_server" model="ir.actions.server">
+    <field name="name">Change_state</field>
+    <field name="model_id" ref="model_property"/>
+    <field name="binding_model_id" ref="model_property"/>
+    <field name="state">code</field>
+    <field name="code">
+        action= records.change_state_wizard_open()
+    </field>
+</record>
 
 
 <!-- search view -->
